@@ -23,7 +23,7 @@ class Automata:
                 if line.startswith("blocks: button num"):
                     num = match.group(1)
                     return "click:" + num
-                    # hardcode end
+                # hardcode end
             else:
                 if line.startswith('blocks'):
                     print "unrecognized:" + line
