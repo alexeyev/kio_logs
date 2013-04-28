@@ -1,0 +1,35 @@
+# Matching rules for processor.py
+# $ are separators
+#
+# AUTOMATA RULES
+$blocks: button num(\d+)$
+$blocks: new record\D+(\d+)\D+(\d+)\D+(\d+)\D+(.*)$
+#
+# RULES
+#
+BTN select problem 1$contest:blocks
+BTN select problem 2$contest:clock
+BTN select problem 0$contest:cut
+BTN back in contest$contest:menu
+BTN saveAll in contest$contest:save
+blocks: new record$record
+blocks: button take$click:T
+blocks: button right$click:R
+blocks: button left$click:L
+blocks: button put$click:P
+blocks: debug controls go$click:run
+blocks: debug controls end$click:stop
+blocks: debug controls man$click:manual:debug-start
+blocks: debug controls stop man$click:manual:debug-stop
+blocks: key in editor pressed$click:editor
+blocks: button undo$click:undo
+blocks: debug controls start$click:start
+blocks: debug controls -1$click:dec
+blocks: debug controls +1$click:inc
+blocks: button br right$click:brright
+blocks: button space$click:space
+blocks: button take manual$click:manual:take
+blocks: button left manual$click:manual:left
+blocks: button put manual$click:manual:put
+blocks: button right manual$click:manual:right
+unrecognized$-
