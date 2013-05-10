@@ -13,12 +13,14 @@ class Model:
     """
     Hardcoded model of the solution space.
     """
-    global red, yellow, blue, red
+    global red, yellow, blue, red, none
 
     def set_config(self):
         self.space = [
             [yellow, yellow, yellow, yellow, red, red, red, red],
-            [green, green, green, green, blue, blue, blue, blue]
+            [green, green, green, green, blue, blue, blue, blue],
+            [none, none, none, none, none, none, none, none],
+            [none, none, none, none, none, none, none, none]
         ]
         self.pointer = 0
 
@@ -50,5 +52,5 @@ class Model:
         return space, ponter
 
 #test
-model = Model()
-print model.check_code("TPTR(R)(8(R))P")
+#model = Model()
+#print model.check_code("TPTR(R)(8(R))P")

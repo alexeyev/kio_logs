@@ -2,7 +2,7 @@
 State automata remembering stuff.
 Any sort of additional actions is done by it.
 """
-import re
+import re, model
 
 class Automata:
     def __init__(self, rules):
@@ -18,6 +18,8 @@ class Automata:
                 if line.startswith("blocks: new record"):
                     prefix = "click:record:" + match.group(1) + ":" + match.group(2) + ":" + match.group(3)
                     if match.group(4):
+                        m = model.Model()
+                        prefix += ":{" + m.check_code(match.group(4)) + "}:"
                         return prefix + ":" + match.group(4)
                     return prefix
                 if line.startswith("blocks: button num"):
