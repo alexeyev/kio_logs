@@ -8,8 +8,6 @@ import tree, sys,os
 data_dir = sys.argv[1]
 dest_dir = sys.argv[2]
 
-print os.listdir(data_dir)
-
 for file in [f for f in os.listdir(data_dir) if f.endswith(".csv")]:
     print "\nProcessing " + file
     dir_name = dest_dir + "/" + file.replace(".", "-")
