@@ -1,6 +1,13 @@
 __author__ = 'alexeyev'
+"""
+    Usage of prog="dot" with graphviz representation is highly recommended.
+"""
+import pygraphviz
 
 def chunk(code):
+    """
+        Chunking code into parts for further processing.
+    """
     chunked = []
     if code <> "":
         index = 0
@@ -32,13 +39,19 @@ def chunk(code):
     return chunked[1:]
 
 def remove_brackets(code):
+    """
+        If unit is wrapped in brackets, removes them.
+    """
     if code.startswith("(") and code.endswith(")"):
         return code[1:len(code) - 1]
     return code
 
 class Tree:
     def __init__(self, code, value, postfix):
-        self.id = value + postfix
+        """
+            Given the code, the tree is built.
+        """
+        self.id = "@" + value + postfix
         self.label = value
         self.out = []
         if code <> "":
@@ -58,8 +71,21 @@ class Tree:
     def __repr__(self):
         return str(self.label) + (str(self.out) if self.out <> [] else "")
 
-    def to_graphviz_format(self):
-        #todo:
-        pass
+    def visit(self, handler):
+        """
+            Traverses the nodes of a tree.
+        """
+        handler(self)
+        for child in self.out:
+            child.visit(handler)
 
-print Tree("T2R45L31(R7L)P", "1", "")
+    def to_graphviz_format(self):
+        tree = pygraphviz.AGraph()
+
+        def pusher(t):
+            tree.add_node(t.id)
+            tree.get_node(t.id).attr['label'] = t.label
+            for child in t.out:
+                tree.add_edge(t.id, child.id)
+        self.visit(pusher)
+        return tree
