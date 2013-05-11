@@ -18,25 +18,29 @@ def chunk(code):
                 buffer += code[index]
             else:
                 chunked += [buffer]
-                # managing brackets
-                if code[index] == "(":
-                    start = index
-                    index += 1
-                    stack_height = 1
-                    while stack_height > 0:
-                        if code[index] == "(":
-                            stack_height += 1
-                        if code[index] == ")":
-                            stack_height -= 1
-                        index += 1
-                    index -= 1
-                    buffer = code[start: index + 1]
-                # one-symbol case
-                else:
-                    buffer = code[index]
+                if code[index] <> " ":
+                    # managing brackets
+                    if code[index] == "(":
+                        # a patch condition due to the bugs in user's code
+                        if index + 1 < len(code):
+                            start = index
+                            index += 1
+                            stack_height = 1
+                            while stack_height > 0:
+                                if code[index] == "(":
+                                    stack_height += 1
+                                if code[index] == ")":
+                                    stack_height -= 1
+                                index += 1
+                            index -= 1
+                            buffer = code[start: index + 1]
+                    # one-symbol case
+                    else:
+                        buffer = code[index]
             index += 1
         chunked += [buffer]
     return chunked[1:]
+
 
 def remove_brackets(code):
     """
@@ -46,7 +50,9 @@ def remove_brackets(code):
         return code[1:len(code) - 1]
     return code
 
+
 class Tree:
+    #todo: learn to buil trees for (TR(R)); a bug
     def __init__(self, code, value, postfix):
         """
             Given the code, the tree is built.
@@ -58,7 +64,9 @@ class Tree:
             chunked = chunk(code)
             index = 0
             while index < len(chunked):
-                if chunked[index].isdigit():
+                if chunked[index].isdigit() and len(chunked) > index + 1:
+                    # second condition for strange cases like "T5"
+                    # still puzzled if ones should be managed
                     self.out +=\
                     [Tree(chunk(remove_brackets(chunked[index + 1])),
                         chunked[index],
@@ -87,5 +95,6 @@ class Tree:
             tree.get_node(t.id).attr['label'] = t.label
             for child in t.out:
                 tree.add_edge(t.id, child.id)
+
         self.visit(pusher)
         return tree
